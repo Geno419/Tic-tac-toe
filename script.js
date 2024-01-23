@@ -1,16 +1,17 @@
-let turn = "X";
+const playAgainBtn = document.getElementById("play-again");
 const boxes = [...document.getElementsByClassName("box")];
+const message = document.getElementById("message");
+const xScore = document.getElementById("X-score");
+const oScore = document.getElementById("O-score");
+xScore.innerText = localStorage.getItem("X-Score") || 0;
+oScore.innerText = localStorage.getItem("O-Score") || 0;
+
+let turn = "X";
+message.innerText = `${turn} it's your turn`;
 let board = boxes.map((box) => {
   return box.innerText;
 });
 let gameEnded = false;
-
-function updateBox(event) {
-  const currentBox = document.getElementById(event.srcElement.id);
-  if (board[currentBox.id] !== "") return;
-  board[currentBox.id] = turn;
-  currentBox.innerText = turn;
-}
 
 function playerTurn(event) {
   const currentBox = document.getElementById(event.srcElement.id);
@@ -18,7 +19,6 @@ function playerTurn(event) {
   board[currentBox.id] = turn;
   currentBox.innerText = turn;
   checkWinner();
-  //updateBox(event).then(() => checkWinner());
 }
 
 function changeTurn() {
@@ -27,6 +27,7 @@ function changeTurn() {
   } else {
     turn = "O";
   }
+  message.innerText = `${turn} it's your turn`;
 }
 
 const winningPositions = [
@@ -51,24 +52,40 @@ function checkWinner() {
       announceWinner(value1);
     }
   }
-  changeTurn();
+  if (gameEnded === false) {
+    changeTurn();
+  }
 }
 
 function announceWinner(winner) {
-  alert(`${winner} wins the game!`);
+  message.innerText = `${winner} wins the game!`;
+  incrementScore(winner);
   endGame();
 }
 
 function endGame() {
   gameEnded = true;
-  // boxes.forEach((box) => {
-  //   box.innerText = "";
-  // });
-  // board = boxes.map((box) => {
-  //   return box.innerText;
-  // });
 }
-// Figure out if winning
-// increment score
-// display who's turn it is
-// local storage for the scores, and restart/new game button
+playAgainBtn.addEventListener("click", resetGame);
+
+function resetGame() {
+  boxes.forEach((box) => {
+    box.innerText = "";
+  });
+  board = boxes.map((box) => {
+    return box.innerText;
+  });
+  changeTurn();
+  gameEnded = false;
+}
+function incrementScore(winner) {
+  if (winner === "O") {
+    oScore.innerText++;
+    let O = Number(oScore.innerText);
+    localStorage.setItem("O-Score", O);
+  } else {
+    xScore.innerText++;
+    let X = Number(xScore.innerText);
+    localStorage.setItem("X-Score", X);
+  }
+}

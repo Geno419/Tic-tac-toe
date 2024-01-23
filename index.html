@@ -14,9 +14,12 @@
     <main>
       <h2>Score</h2>
       <div class="score">
-        <p id="XScore">X:</p>
-        <p id="oScore">O:</p>
+        <p>X:<span id="X-score">0</span></p>
+        <p>O:<span id="O-score">0</span></p>
       </div>
+      <button id="play-again">PLAY AGAIN</button>
+
+      <div><p id="message"></p></div>
       <board>
         <div id="0" class="box" onclick="playerTurn(event)"></div>
         <div id="1" class="box" onclick="playerTurn(event)"></div>

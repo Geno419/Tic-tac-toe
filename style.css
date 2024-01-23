@@ -33,10 +33,10 @@ main {
   justify-content: space-between;
 }
 
-#XScore {
+#X-score {
   margin-right: 15px;
 }
-#OScore {
+#O-score {
   margin-left: 15px;
 }
 
